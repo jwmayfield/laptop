@@ -90,9 +90,7 @@ brew "diff-so-fancy"
 brew "exa"
 brew "fd"
 brew "fish"
-brew "gawk"
 brew "git"
-brew "gpg"
 brew "neovim"
 brew "procs"
 brew "ripgrep"
@@ -105,6 +103,9 @@ brew "gh"
 
 # Programming language prerequisites and package managers
 brew "asdf"
+brew "gawk"
+brew "gpg"
+brew "gmp"
 
 # Other basic 3rd-party tools
 cask "1password"
