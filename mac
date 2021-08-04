@@ -117,7 +117,7 @@ EOF
 
 fancy_echo "Updating dotfiles ..."
 if [ ! -d "$HOME/Code/dotfiles" ]; then
-  gh auth login
+  gh auth login --web
   gh repo clone jwmayfield/dotfiles "$HOME/Code/dotfiles"
 fi
 cd "$HOME/Code/dotfiles" && git pull && stow -R *
