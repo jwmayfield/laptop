@@ -133,10 +133,18 @@ esac
 
 source $HOMEBREW_PREFIX/opt/asdf/asdf.sh
 add_or_update_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
+add_or_update_asdf_plugin "python" "https://github.com/danhper/asdf-python.git"
+add_or_update_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
 add_or_update_asdf_plugin "rust" "https://github.com/code-lever/asdf-rust.git"
 
 fancy_echo "Installing latest Node ..."
 install_asdf_language "nodejs"
+
+fancy_echo "Installing latest Python ..."
+install_asdf_language "python"
+
+fancy_echo "Installing latest Ruby ..."
+install_asdf_language "ruby"
 
 fancy_echo "Installing latest Rust ..."
 install_asdf_language "rust"
@@ -161,6 +169,20 @@ if [ ! -f "$HOME/.local/share/nvim/site/autoload/plug.vim" ]; then
   curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
+
+fancy_echo "Updating neovim language symlinks ..."
+rm -f $HOME/.bin/neovim-node-host
+rm -f $HOME/.bin/python
+rm -f $HOME/.bin/neovim-ruby-host
+
+"$(asdf which npm)" install -g neovim
+"$(asdf which pip)" install neovim
+"$(asdf which gem)" install neovim
+
+asdf reshim
+ln -s "$(asdf which neovim-node-host)" $HOME/.bin/neovim-node-host
+ln -s "$(asdf which python)" $HOME/.bin/python
+ln -s "$(asdf which neovim-ruby-host)" $HOME/.bin/neovim-ruby-host
 
 fancy_echo "Updating vim plugins ..."
 nvim --headless +PlugUpgrade +qall
