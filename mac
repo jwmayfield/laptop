@@ -9,6 +9,29 @@ fancy_echo() {
   printf "\\n$fmt\\n" "$@"
 }
 
+alias install_asdf_plugin=add_or_update_asdf_plugin
+add_or_update_asdf_plugin() {
+  local name="$1"
+  local url="$2"
+
+  if ! asdf plugin-list | grep -Fq "$name"; then
+    asdf plugin-add "$name" "$url"
+  else
+    asdf plugin-update "$name"
+  fi
+}
+
+install_asdf_language() {
+  local language="$1"
+  local version
+  version="$(asdf list-all "$language" | grep -v "[a-z]" | tail -1)"
+
+  if ! asdf list "$language" | grep -Fq "$version"; then
+    asdf install "$language" "$version"
+    asdf global "$language" "$version"
+  fi
+}
+
 update_shell() {
   local shell_path;
   shell_path="$(command -v fish)"
@@ -62,7 +85,9 @@ brew "bat"
 brew "exa"
 brew "fd"
 brew "fish"
+brew "gawk"
 brew "git"
+brew "gpg"
 brew "neovim"
 brew "procs"
 brew "ripgrep"
@@ -89,11 +114,17 @@ mas "Magnet", id: 441_258_766
 mas "Slack", id: 803_453_959
 EOF
 
+add_or_update_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
+
+fancy_echo "Installing latest Node ..."
+bash "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
+install_asdf_language "nodejs"
+
 if ! command -v heroku >/dev/null; then
   # As of 2021-08-04, no Homebrew bottle for Apple Silicon
   fancy_echo "Installing Heroku CLI ..."
 
-  curl https://cli-assets.heroku.com/install.sh | sh
+  npm install -g heroku
 fi
 
 case "$SHELL" in
