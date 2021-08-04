@@ -92,6 +92,7 @@ brew "neovim"
 brew "procs"
 brew "ripgrep"
 brew "starship"
+brew "stow"
 brew "tokei"
 
 # GitHub
@@ -114,6 +115,23 @@ mas "Magnet", id: 441_258_766
 mas "Slack", id: 803_453_959
 EOF
 
+fancy_echo "Updating dotfiles ..."
+if [ ! -d "$HOME/Code/dotfiles" ]; then
+  gh repo clone jwmayfield/dotfiles "$HOME/Code/dotfiles"
+fi
+cd "$HOME/Code/dotfiles" && git pull && stow -R *
+
+case "$SHELL" in
+  */fish)
+    if [ "$(command -v fish)" != "$HOMEBREW_PREFIX/bin/fish" ] ; then
+      update_shell
+    fi
+    ;;
+  *)
+    update_shell
+    ;;
+esac
+
 add_or_update_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
 
 fancy_echo "Installing latest Node ..."
@@ -125,14 +143,3 @@ if ! command -v heroku >/dev/null; then
 
   npm install -g heroku
 fi
-
-case "$SHELL" in
-  */fish)
-    if [ "$(command -v fish)" != "$HOMEBREW_PREFIX/bin/zsh" ] ; then
-      update_shell
-    fi
-    ;;
-  *)
-    update_shell
-    ;;
-esac
