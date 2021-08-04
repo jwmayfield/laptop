@@ -58,7 +58,7 @@ tap "heroku/brew"
 
 # Unix
 brew "universal-ctags", args: ["HEAD"]
-brew "alacritty"
+cask "alacritty"
 brew "bat"
 brew "exa"
 brew "fd"
