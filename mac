@@ -54,7 +54,6 @@ fancy_echo "Updating Homebrew formulae ..."
 brew update --force # https://github.com/Homebrew/brew/issues/1151
 brew bundle --file=- <<EOF
 tap "universal-ctags/universal-ctags"
-tap "heroku/brew"
 
 # Unix
 brew "universal-ctags", args: ["HEAD"]
@@ -69,9 +68,6 @@ brew "procs"
 brew "ripgrep"
 brew "starship"
 brew "tokei"
-
-# Heroku
-brew "heroku"
 
 # GitHub
 brew "gh"
@@ -93,9 +89,12 @@ mas "Magnet", id: 441_258_766
 mas "Slack", id: 803_453_959
 EOF
 
-fancy_echo "Update heroku binary ..."
-brew unlink heroku
-brew link --force heroku
+if ! command -v heroku >/dev/null; then
+  # As of 2021-08-04, no Homebrew bottle for Apple Silicon
+  fancy_echo "Installing Heroku CLI ..."
+
+  curl https://cli-assets.heroku.com/install.sh | sh
+fi
 
 case "$SHELL" in
   */fish)
