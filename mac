@@ -63,6 +63,11 @@ else
   sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
 fi
 
+if ! command -v xcode-select >/dev/null; then
+  fancy_echo "Installing CLT ..."
+  xcode-select --install
+fi
+
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
 
@@ -80,8 +85,8 @@ tap "universal-ctags/universal-ctags"
 
 # Unix
 brew "universal-ctags", args: ["HEAD"]
-cask "alacritty"
 brew "bat"
+brew "diff-so-fancy"
 brew "exa"
 brew "fd"
 brew "fish"
@@ -115,11 +120,26 @@ mas "Magnet", id: 441_258_766
 mas "Slack", id: 803_453_959
 EOF
 
+case "$SHELL" in
+  */fish)
+    if [ "$(command -v fish)" != "$HOMEBREW_PREFIX/bin/fish" ] ; then
+      update_shell
+    fi
+    ;;
+  *)
+    update_shell
+    ;;
+esac
+
 source $HOMEBREW_PREFIX/opt/asdf/asdf.sh
 add_or_update_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
+add_or_update_asdf_plugin "rust" "https://github.com/code-lever/asdf-rust.git"
 
 fancy_echo "Installing latest Node ..."
 install_asdf_language "nodejs"
+
+fancy_echo "Installing latest Rust ..."
+install_asdf_language "rust"
 
 if ! command -v heroku >/dev/null; then
   # As of 2021-08-04, no Homebrew bottle for Apple Silicon
@@ -135,13 +155,31 @@ if [ ! -d "$HOME/Code/dotfiles" ]; then
 fi
 cd "$HOME/Code/dotfiles" && git pull && stow -t $HOME -R */
 
-case "$SHELL" in
-  */fish)
-    if [ "$(command -v fish)" != "$HOMEBREW_PREFIX/bin/fish" ] ; then
-      update_shell
-    fi
-    ;;
-  *)
-    update_shell
-    ;;
-esac
+if [ ! -f "$HOME/.local/share/nvim/site/autoload/plug.vim" ]; then
+  fancy_echo "Installing vim-plug ..."
+
+  curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+fancy_echo "Updating vim plugins ..."
+nvim --headless +PlugUpgrade +qall
+nvim --headless +PlugClean! +qall
+nvim --headless +PlugUpdate +qall
+
+if [ ! -d "/Applications/Alacritty.app" ]; then
+  fancy_echo "Building alacritty ..."
+
+  rm -rf $HOME/Code/alacritty
+  git clone git@github.com:alacritty/alacritty.git $HOME/Code/alacritty
+  cd $HOME/Code/alacritty
+  git checkout arm_ci
+  rustup update
+  rustup default stable
+  rustup target add aarch64-apple-darwin
+  rustup target add x86_64-apple-darwin
+  cargo check --target=aarch64-apple-darwin
+  make dmg-universal
+  cp -r target/release/osx/Alacritty.app /Applications/
+  rm -rf $HOME/Code/alacritty
+fi
