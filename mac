@@ -68,17 +68,6 @@ else
   sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
 fi
 
-case "$SHELL" in
-  */fish)
-    if [ "$(command -v fish)" != "$HOMEBREW_PREFIX/bin/zsh" ] ; then
-      update_shell
-    fi
-    ;;
-  *)
-    update_shell
-    ;;
-esac
-
 # gem_install_or_update() {
 #   if gem list "$1" --installed > /dev/null; then
 #     gem update "$@"
@@ -151,6 +140,17 @@ EOF
 fancy_echo "Update heroku binary ..."
 brew unlink heroku
 brew link --force heroku
+
+case "$SHELL" in
+  */fish)
+    if [ "$(command -v fish)" != "$HOMEBREW_PREFIX/bin/zsh" ] ; then
+      update_shell
+    fi
+    ;;
+  *)
+    update_shell
+    ;;
+esac
 
 # fancy_echo "Configuring asdf version manager ..."
 # if [ ! -d "$HOME/.asdf" ]; then
