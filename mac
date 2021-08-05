@@ -107,6 +107,7 @@ brew "gawk"
 brew "gpg"
 brew "gmp"
 brew "php@7.4"  # installing via asdf not working
+brew "composer" # since we installed php via brew
 
 # Other basic 3rd-party tools
 cask "1password"
