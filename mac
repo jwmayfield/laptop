@@ -115,6 +115,7 @@ cask "1password-cli"
 cask "aerial"
 cask "backblaze"
 cask "docker"
+cask "hyper"
 cask "transmit"
 mas "Amphetamine", id: 937984704
 mas "DuckDuckGo Privacy Essentials", id: 1_482_920_575
@@ -196,20 +197,3 @@ fancy_echo "Updating vim plugins ..."
 nvim --headless +PlugUpgrade +qall
 nvim --headless +PlugClean! +qall
 nvim --headless +PlugUpdate +qall
-
-if [ ! -d "/Applications/Alacritty.app" ]; then
-  fancy_echo "Building alacritty ..."
-
-  rm -rf $HOME/Code/alacritty
-  git clone git@github.com:alacritty/alacritty.git $HOME/Code/alacritty
-  cd $HOME/Code/alacritty
-  git checkout arm_ci
-  rustup update
-  rustup default stable
-  rustup target add aarch64-apple-darwin
-  rustup target add x86_64-apple-darwin
-  cargo check --target=aarch64-apple-darwin
-  make dmg-universal
-  cp -r target/release/osx/Alacritty.app /Applications/
-  rm -rf $HOME/Code/alacritty
-fi
