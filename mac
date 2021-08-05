@@ -106,6 +106,7 @@ brew "asdf"
 brew "gawk"
 brew "gpg"
 brew "gmp"
+brew "php@7.4"  # installing via asdf not working
 
 # Other basic 3rd-party tools
 cask "1password"
@@ -151,6 +152,9 @@ fancy_echo "Installing latest Rust ..."
 install_asdf_language "rust"
 rm -f $HOME/.cargo
 ln -s "$(asdf where rust)" $HOME/.cargo
+
+fancy_echo "Linking PHP 7.4 ..."
+brew link php@7.4
 
 if ! command -v heroku >/dev/null; then
   # As of 2021-08-04, no Homebrew bottle for Apple Silicon
