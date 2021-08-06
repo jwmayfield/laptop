@@ -101,6 +101,10 @@ brew "tokei"
 # GitHub
 brew "gh"
 
+# Database Tools
+brew "postgresql"
+cask "pgadmin4"
+
 # Programming language prerequisites and package managers
 brew "asdf"
 brew "gawk"
@@ -115,6 +119,7 @@ cask "1password-cli"
 cask "aerial"
 cask "backblaze"
 cask "docker"
+cask "figma"
 cask "hyper"
 cask "transmit"
 mas "Amphetamine", id: 937984704
