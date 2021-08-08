@@ -141,7 +141,7 @@ case "$SHELL" in
     ;;
 esac
 
-$(brew --prefix)/opt/fzf/install
+$(brew --prefix)/opt/fzf/install --all
 
 source $HOMEBREW_PREFIX/opt/asdf/asdf.sh
 add_or_update_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
