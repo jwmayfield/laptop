@@ -86,6 +86,7 @@ tap "universal-ctags/universal-ctags"
 # Unix
 brew "universal-ctags", args: ["HEAD"]
 brew "bat"
+brew "broot"
 brew "diff-so-fancy"
 brew "exa"
 brew "fd"
