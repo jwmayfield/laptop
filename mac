@@ -81,6 +81,7 @@ fi
 fancy_echo "Updating Homebrew formulae ..."
 brew update --force # https://github.com/Homebrew/brew/issues/1151
 brew bundle --file=- <<EOF
+tap "heroku/brew"
 tap "universal-ctags/universal-ctags"
 
 # Unix
@@ -93,6 +94,7 @@ brew "fd"
 brew "fish"
 brew "fzf"
 brew "git"
+brew "heroku"
 brew "neovim"
 brew "procs"
 brew "rargs"
@@ -100,6 +102,7 @@ brew "ripgrep"
 brew "starship"
 brew "stow"
 brew "tokei"
+brew "wget"
 
 # GitHub
 brew "gh"
@@ -169,12 +172,12 @@ ln -s "$(asdf where rust)" $HOME/.cargo
 fancy_echo "Linking PHP 7.4 ..."
 brew link php@7.4
 
-if ! command -v heroku >/dev/null; then
-  # As of 2021-08-04, no Homebrew bottle for Apple Silicon
-  fancy_echo "Installing Heroku CLI ..."
-
-  npm install -g heroku
-fi
+# if ! command -v heroku >/dev/null; then
+#   # As of 2021-08-04, no Homebrew bottle for Apple Silicon
+#   fancy_echo "Installing Heroku CLI ..."
+#
+#   npm install -g heroku
+# fi
 
 fancy_echo "Updating dotfiles ..."
 if [ ! -d "$HOME/Code/dotfiles" ]; then
