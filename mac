@@ -168,7 +168,8 @@ install_asdf_language "rust"
 rm -f $HOME/.cargo
 ln -s "$(asdf where rust)" $HOME/.cargo
 
-fancy_echo "Installing Composer for PHP ..."
+fancy_echo "Linking PHP and installing Composer ..."
+brew link -q php@7.4
 bash ./composer-install.sh
 
 # if ! command -v heroku >/dev/null; then
