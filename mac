@@ -129,10 +129,6 @@ cask "docker"
 cask "figma"
 cask "hyper"
 cask "transmit"
-mas "Amphetamine", id: 937984704
-mas "DuckDuckGo Privacy Essentials", id: 1_482_920_575
-mas "Kindle", id: 405_399_194
-mas "Slack", id: 803_453_959
 EOF
 
 case "$SHELL" in
