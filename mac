@@ -78,9 +78,6 @@ if ! command -v brew >/dev/null; then
   eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 fi
 
-fancy_echo "run this before asdf install php:"
-fancy_echo 'not running brew "php@7.4"'
-fancy_echo 'not running brew "composer"'
 fancy_echo "Updating Homebrew formulae ..."
 brew update --force # https://github.com/Homebrew/brew/issues/1151
 brew bundle --file=- <<EOF
