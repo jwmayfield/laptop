@@ -114,26 +114,10 @@ cask "pgadmin4"
 
 # Programming language prerequisites and package managers
 brew "asdf"
-brew "autoconf"
-brew "automake"
-brew "bison"
-brew "freetype"
+brew "composer" # because asdf php doesn't work
 brew "gawk"
-brew "gd"
-brew "gettext"
 brew "gmp"
 brew "gpg"
-brew "icu4c"
-brew "krb5"
-brew "libedit"
-brew "libiconv"
-brew "libjpeg"
-brew "libpng"
-brew "libxml2"
-brew "libzip"
-brew "pkg-config"
-brew "re2c"
-brew "zlib"
 cask "lando"
 
 # Other basic 3rd-party tools
@@ -166,7 +150,6 @@ $(brew --prefix)/opt/fzf/install --all
 
 source $HOMEBREW_PREFIX/opt/asdf/asdf.sh
 add_or_update_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
-add_or_update_asdf_plugin "php" "https://github.com/asdf-community/asdf-php.git"
 add_or_update_asdf_plugin "python" "https://github.com/danhper/asdf-python.git"
 add_or_update_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
 add_or_update_asdf_plugin "rust" "https://github.com/code-lever/asdf-rust.git"
@@ -184,11 +167,6 @@ fancy_echo "Installing latest Rust ..."
 install_asdf_language "rust"
 rm -f $HOME/.cargo
 ln -s "$(asdf where rust)" $HOME/.cargo
-
-# fancy_echo "Linking PHP 7.4 ..."
-# brew link php@7.4
-fancy_echo "Installing PHP 7.4 ..."
-PHP_WITHOUT_PDO_PGSQL=yes asdf install php 7.4.28
 
 # if ! command -v heroku >/dev/null; then
 #   # As of 2021-08-04, no Homebrew bottle for Apple Silicon
