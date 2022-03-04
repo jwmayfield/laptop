@@ -114,7 +114,7 @@ cask "pgadmin4"
 
 # Programming language prerequisites and package managers
 brew "asdf"
-brew "composer" # because asdf php doesn't work
+brew "php@7.4" # because asdf php doesn't work
 brew "gawk"
 brew "gmp"
 brew "gpg"
@@ -167,6 +167,9 @@ fancy_echo "Installing latest Rust ..."
 install_asdf_language "rust"
 rm -f $HOME/.cargo
 ln -s "$(asdf where rust)" $HOME/.cargo
+
+fancy_echo "Installing Composer for PHP ..."
+bash ./composer-install.sh
 
 # if ! command -v heroku >/dev/null; then
 #   # As of 2021-08-04, no Homebrew bottle for Apple Silicon
